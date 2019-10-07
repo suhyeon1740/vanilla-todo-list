@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        li:first {
-            text-decoration: line-through;
+        ul {
+            list-style: none;
         }
     </style>
 </head>
@@ -17,37 +17,9 @@
         <input type="button" value="Add" id="add">
     </div>
     <div>
-        <ul id="list">
-            <li>
-                <label><input type="checkbox">할일 1</label>            
-            </li>
-            <li>
-                <label><input type="checkbox">할일 2</label>
-            </li>
+        <ul id="list">            
         </ul>
     </div>
-    <script>
-        var lis = document.getElementsByTagName('li')
-        for(var i=0; i<lis.length; i++) {
-            lis[i].addEventListener('click', (e) => {
-                console.log(e)
-                if(!e.target.firstChild.checked) {
-                    e.target.style.textDecoration = 'line-through'
-                } else {
-                    e.target.style.textDecoration = 'none';
-                }
-                
-            })
-        }
-
-        var add = document.getElementById('add')
-        add.addEventListener('click', e => {
-            // var content = document.getElementById('list').innerHTML
-            var content = document.getElementById('content').value
-            document.getElementById('list').innerHTML += `<li>
-                    <label><input type="checkbox">${content}</label>
-                </li>`
-        })
-    </script>
+    <script src="./script.js"></script>
 </body>
 </html>

@@ -19,7 +19,6 @@ body {
     padding: 20px 15px;
     box-shadow: 0 5px 10px -5px;
     width: 50%;
-    max-width: 800px;
     min-width: 400px;
 }
 
@@ -78,4 +77,10 @@ label {
     text-decoration: line-through;
     color: #7983EC;
 
+}
+
+@media (min-width: 1000px) {
+    #app {
+        max-width: 600px;
+    }
 }

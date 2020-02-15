@@ -55,6 +55,9 @@ input[type="checkbox"] {
 ul {
     padding: 0;
     list-style: none;
+    overflow: auto; /*scroll: 계속 보임, auto: 내용이 길때만*/
+    height: 350px;
+    overscroll-behavior: none;
 }
 
 li {

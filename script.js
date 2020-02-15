@@ -1,12 +1,19 @@
-const makeList = (content) => {
+const makeList = (todo) => {
     let li = document.createElement('li')
-    li.innerHTML = `<label><input type="checkbox">${content}</label>`
+    li.innerHTML = `<label>${todo.title}</label>`
+    let checkbox = document.createElement('input')
+    checkbox.type = "checkbox"
+    li.insertBefore(checkbox, li.firstElementChild)
     let btn = document.createElement('div')
     btn.classList.add('trash')
     btn.innerHTML = '<i class="fas fa-trash-alt"></i>'
     btn.addEventListener('click', removeList)
     li.appendChild(btn)
     li.addEventListener('click', clickList)
+    if(todo.completed) {
+        checkbox.checked = true
+        li.classList.add('checked')
+    }
     document.getElementById('list').appendChild(li)
 }
 
@@ -34,7 +41,10 @@ const addList = () => {
         alert('내용을 입력하세요.')
         return
     }
-    makeList(content)
+    makeList({
+        title: content,
+        completed: false
+    })
     document.getElementById('content').value = ''
 }
 
@@ -46,5 +56,19 @@ document.getElementById('content').addEventListener('keydown', e => {
     }
 })
 
-makeList('할일1')
-makeList('할일2')
+getData()
+function getData() {
+    fetch('https://jsonplaceholder.typicode.com/todos?userId=1')
+    .then(res => {
+        if (res.status == 200) {
+            return res.json()
+        } else {
+            console.log(res.statusText)
+        }
+    })
+    .then(jsonData => {
+        for (const index in jsonData) {
+            makeList(jsonData[index])
+        }
+    })
+}

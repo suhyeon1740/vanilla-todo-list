@@ -17,22 +17,17 @@ const makeList = (todo) => {
     document.getElementById('list').appendChild(li)
 }
 
-const removeList = (e) => {       
-    if (e.target.tagName === 'DIV') {
-        document.getElementById('list').removeChild(e.target.parentNode)    
-    } else {
-        document.getElementById('list').removeChild(e.target.parentNode.parentNode)    
-    }
+const removeList = (e) => {           
+    document.getElementById('list').removeChild(e.currentTarget.parentNode)
 }
 
-const clickList = (e) => {
-    // TODO: li를 클릭해도 똑같이 동작해야 함
-    if (e.target.tagName === 'INPUT') {
-        if (e.target.checked)
-            e.target.parentNode.classList.add('checked')
-            //e.target.parentNode.style.textDecoration = 'none'
-        else e.target.parentNode.classList.remove('checked')
+const clickList = (e) => {        
+    if(e.target.tagName !== 'INPUT') {
+        e.currentTarget.firstElementChild.checked = !e.currentTarget.firstElementChild.checked
     }
+    if (e.currentTarget.firstElementChild.checked)
+        e.currentTarget.classList.add('checked')    
+    else e.currentTarget.classList.remove('checked')    
 }
 
 const addList = () => {

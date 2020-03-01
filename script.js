@@ -1,33 +1,33 @@
-const makeList = (todo) => {
-    let li = document.createElement('li')
-    li.innerHTML = `<label>${todo.title}</label>`
-    let checkbox = document.createElement('input')
-    checkbox.type = "checkbox"
-    li.insertBefore(checkbox, li.firstElementChild)
-    let btn = document.createElement('div')
-    btn.classList.add('trash')
-    btn.innerHTML = '<i class="fas fa-trash-alt"></i>'
-    btn.addEventListener('click', removeList)
-    li.appendChild(btn)
-    li.addEventListener('click', clickList)
-    if(todo.completed) {
-        checkbox.checked = true
-        li.classList.add('checked')
-    }
-    document.getElementById('list').appendChild(li)
+const makeList = (todo) => {    
+    document.getElementById('list').insertAdjacentHTML('beforeend',`
+        <li>
+            <input type="checkbox"><label>${todo.title}</label>
+            <div class="trash">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+        </li>
+    `)    
+    if (todo.completed) {
+        var lastLI = document.getElementById('list').lastElementChild
+        lastLI.firstElementChild.checked = true
+        lastLI.classList.add('checked')
+    }    
 }
 
-const removeList = (e) => {           
-    document.getElementById('list').removeChild(e.currentTarget.parentNode)
+const removeList = (e) => {
+    var target = e.target.tagName == 'I' ? e.target.parentNode : e.target            
+    document.getElementById('list').removeChild(target.parentNode)
 }
 
 const clickList = (e) => {        
-    if(e.target.tagName !== 'INPUT') {
-        e.currentTarget.firstElementChild.checked = !e.currentTarget.firstElementChild.checked
-    }
-    if (e.currentTarget.firstElementChild.checked)
-        e.currentTarget.classList.add('checked')    
-    else e.currentTarget.classList.remove('checked')    
+    var target  = e.target
+    if(e.target.tagName == 'LABEL') {
+        e.target.previousElementSibling.checked = !e.target.previousElementSibling.checked
+        target = e.target.previousElementSibling        
+    } 
+    if (target.checked)
+        target.parentNode.classList.add('checked')
+    else target.parentNode.classList.remove('checked')        
 }
 
 const addList = () => {
@@ -43,6 +43,14 @@ const addList = () => {
     document.getElementById('content').value = ''
 }
 
+document.getElementById('list').addEventListener('click',function(e) {    
+    if(e.target.tagName == 'INPUT' || e.target.tagName == 'LABEL')
+        clickList(e)
+    if(e.target.tagName == 'I' || e.target.classList.contains('trash')) {
+        removeList(e)
+    }
+
+})
 document.getElementById('add').addEventListener('click', addList)
 
 document.getElementById('content').addEventListener('keydown', e => {
